@@ -1,0 +1,29 @@
+{% extends "baseStudent.html" %}
+
+{% block main %}
+<main class="section">
+  <div class="container">
+    <section class="box auth-box">
+      <div class="box__head">
+        <h2>تسجيل دخول الإدارة</h2>
+        <p>يتم الدخول باستخدام اسم المستخدم وكلمة المرور</p>
+      </div>
+      <div class="box__body">
+        <form method="post" action="{{ url_for('admin_login') }}" class="form">
+          <label class="field">
+            <span class="field__label">اسم المستخدم</span>
+            <input class="input" type="text" name="username" required />
+          </label>
+
+          <label class="field">
+            <span class="field__label">كلمة المرور</span>
+            <input class="input" type="password" name="password" required />
+          </label>
+
+          <button class="btn btn--primary btn--full" type="submit">دخول الإدارة</button>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "baseStudent.html" %}
+
+{% block main %}
+<main class="section">
+  <div class="container">
+    <section class="box">
+      <div class="box__head">
+        <h2>إنشاء إعلان جديد</h2>
+        <p>اختاري الكتاب وحددي نوع الإعلان وحالة النسخة</p>
+      </div>
+
+      <div class="box__body">
+        <form action="{{ url_for('create_ad') }}" method="post" enctype="multipart/form-data">
+          <div class="filters" style="grid-template-columns: 1fr 1fr;">
+            <select class="select" name="book_id" required>
+              <option value="">اختيار الكتاب المعتمد</option>
+              {% for book in books %}
+                <option value="{{ book.book_id }}">{{ book.book_title }} - {{ book.course_name }} ({{ book.major }})</option>
+              {% endfor %}
+            </select>
+
+            <select class="select" name="ad_type" required>
+              <option value="">نوع الإعلان</option>
+              <option value="تبادل">تبادل</option>
+              <option value="تبرع">تبرع</option>
+            </select>
+
+            <select class="select" name="copy_condition" required>
+              <option value="">حالة النسخة</option>
+              <option value="جديد">جديد</option>
+              <option value="جيد جدًا">جيد جدًا</option>
+              <option value="جيد">جيد</option>
+              <option value="مستخدم">مستخدم</option>
+            </select>
+
+            <input class="search" type="text" name="delivery_method" placeholder="طريقة التسليم (اختياري)" />
+          </div>
+
+          <div style="margin-top: 12px;">
+            <label class="small" style="display:block; margin-bottom: 8px;">صورة الكتاب (اختياري)</label>
+            <input class="search" type="file" name="book_image" accept="image/*" />
+          </div>
+
+          <div style="margin-top: 14px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn btn--primary" type="submit">نشر الإعلان</button>
+            <a class="btn btn--ghost" href="{{ url_for('student_ads') }}">إلغاء</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

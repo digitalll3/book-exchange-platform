@@ -1,0 +1,68 @@
+﻿{% extends "baseStudent.html" %}
+
+{% block main %}
+<main class="section">
+  <div class="container">
+    <div class="toolbar">
+      <div class="toolbar__title">
+        <h1>تفاصيل الإعلان</h1>
+        <p>راجعي بيانات الإعلان قبل إرسال الطلب</p>
+      </div>
+    </div>
+
+    <div class="details">
+      <section class="box">
+        <div class="box__head">
+          <h2>{{ ad.book_title }}</h2>
+          <p>نوع الإعلان: {{ ad.ad_type }} • الحالة: {{ ad.ad_status }}</p>
+        </div>
+
+        <div class="box__body">
+          <div class="kv"><b>المقرر</b><span>{{ ad.course_name }}</span></div>
+          <div class="kv"><b>التخصص</b><span>{{ ad.major }}</span></div>
+          <div class="kv"><b>حالة النسخة</b><span>{{ ad.copy_condition }}</span></div>
+          <div class="kv"><b>طريقة التسليم</b><span>{{ ad.delivery_method or 'يحدد لاحقاً' }}</span></div>
+          <div class="kv"><b>وصف الكتاب</b><span>{{ ad.short_description or 'لا يوجد وصف إضافي' }}</span></div>
+          <div class="kv"><b>صاحبة الإعلان</b><span>{{ ad.owner_name }}</span></div>
+
+          {% if ad.book_image %}
+            <div style="margin-top:12px;">
+              <img src="{{ url_for('static', filename='uploads/book_ads/' ~ ad.book_image) }}" alt="book" style="max-width: 280px; width: 100%; border-radius: 14px; border: 1px solid var(--border);" />
+            </div>
+          {% endif %}
+
+          <div class="cardx__actions" style="padding:0; margin-top:14px;">
+            <a class="btn2 btn2--ghost" href="{{ url_for('student_ads') }}">رجوع</a>
+
+            {% if session.get('student_id') and session.get('student_id') != ad.student_id and ad.ad_status == 'متاح' %}
+              {% if my_request %}
+                <span class="small">تم إرسال طلب سابقاً (الحالة: {{ my_request.request_status }})</span>
+              {% else %}
+                <form method="post" action="{{ url_for('create_exchange_request', ad_id=ad.ad_id) }}">
+                  <button class="btn2 btn2--primary" type="submit">طلب الكتاب</button>
+                </form>
+              {% endif %}
+            {% elif not session.get('student_id') %}
+              <a class="btn2 btn2--primary" href="{{ url_for('student_login') }}">سجلي الدخول أولاً</a>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+
+      <aside class="box">
+        <div class="box__head">
+          <h2>تنبيه</h2>
+          <p>بعد قبول الطلب يتم تحديد الموعد والمكان داخل الكلية</p>
+        </div>
+        <div class="box__body">
+          <div class="notice">
+            حالة الطلب تتابعينها من صفحة "طلباتي"، وصاحبة الإعلان تستطيع تحديث الطلب من صفحة "إعلاناتي".
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+{% endblock %}
+
+

@@ -1,0 +1,104 @@
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page_title or 'منصة تبادل الكتب' }}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="{{ url_for('home_index') }}">
+      <span class="brand__logo brand__logo--emoji" aria-hidden="true">📚</span>
+      <span class="brand__text">
+        <span class="brand__title">منصة تبادل الكتب</span>
+        <span class="brand__sub">جامعة نجران • الكلية التطبيقية</span>
+      </span>
+    </a>
+    <button class="nav__toggle" type="button" aria-label="فتح القائمة" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav__links" aria-label="روابط رئيسية">
+      <a href="{{ url_for('home_index') }}">الرئيسية</a>
+      <a href="{{ url_for('home_about') }}">حول المنصة</a>
+      <a href="{{ url_for('student_ads') }}">الإعلانات</a>
+      <a href="{{ url_for('my_ads') }}">إعلاناتي</a>
+      <a href="{{ url_for('my_requests') }}">طلباتي</a>
+      <a href="{{ url_for('admin_login') }}">لوحة الإدارة</a>
+    </nav>
+
+    <div class="nav__actions">
+      {% if session.get('student_id') %}
+        <a class="btn btn--ghost" href="{{ url_for('create_ad') }}">إنشاء إعلان</a>
+        <a class="btn btn--primary" href="{{ url_for('student_logout') }}">تسجيل خروج</a>
+      {% else %}
+        <a class="btn btn--ghost" href="{{ url_for('student_login') }}">تسجيل دخول</a>
+        <a class="btn btn--primary" href="{{ url_for('student_signup') }}">إنشاء حساب</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<div class="container flash-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert--{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+{% block main %}{% endblock %}
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <div class="brand__mini" aria-hidden="true"></div>
+      <div>
+        <b>منصة تبادل الكتب</b>
+        <div class="muted">جامعة نجران - الكلية التطبيقية</div>
+      </div>
+    </div>
+    <div class="muted">© {{ current_year }}</div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const nav = document.querySelector('.nav');
+    const toggle = nav ? nav.querySelector('.nav__toggle') : null;
+    if (!nav || !toggle) return;
+
+    const closeMenu = function () {
+      nav.classList.remove('nav--open');
+      toggle.setAttribute('aria-expanded', 'false');
+    };
+
+    toggle.addEventListener('click', function () {
+      const isOpen = nav.classList.toggle('nav--open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 980) {
+        closeMenu();
+      }
+    });
+  })();
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

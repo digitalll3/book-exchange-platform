@@ -1,0 +1,70 @@
+﻿{% extends "baseStudent.html" %}
+
+{% block main %}
+<main class="section">
+  <div class="container">
+    <section class="box auth-box">
+      <div class="box__head">
+        <h2>إنشاء حساب طالبة</h2>
+        <p>أدخلي بياناتك الأساسية لبدء استخدام المنصة</p>
+      </div>
+      <div class="box__body">
+        <form method="post" action="{{ url_for('student_signup') }}" class="form">
+          <label class="field">
+            <span class="field__label">الاسم الكامل</span>
+            <input class="input" type="text" name="full_name" required />
+          </label>
+
+          <label class="field">
+            <span class="field__label">البريد الجامعي</span>
+            <input
+              class="input"
+              type="email"
+              name="university_email"
+              placeholder="sara@nu.edu.sa"
+              pattern="^[A-Za-z0-9._%+-]+@nu\.edu\.sa$"
+              title="يجب إدخال بريد جامعي بصيغة sara@nu.edu.sa"
+              required
+            />
+          </label>
+
+          <div class="grid2">
+            <label class="field">
+              <span class="field__label">التخصص</span>
+              <input class="input" type="text" name="major" required />
+            </label>
+
+            <label class="field">
+              <span class="field__label">المستوى (اختياري)</span>
+              <input class="input" type="text" name="level" />
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field__label">كلمة المرور</span>
+            <input
+              class="input"
+              type="password"
+              name="password"
+              placeholder="أدخلي كلمة مرور قوية"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-#])[A-Za-z\d@$!%*?&_\-#]{8,}$"
+              title="يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، وحرف كبير، وحرف صغير، ورقم، ورمز خاص."
+              required
+            />
+          </label>
+          <p class="hint">
+            يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، وحرف كبير، وحرف صغير، ورقم، ورمز خاص.
+          </p>
+
+          <button class="btn btn--primary btn--full" type="submit">إنشاء الحساب</button>
+        </form>
+
+        <p class="hint">
+          لديك حساب؟
+          <a class="link" href="{{ url_for('student_login') }}">تسجيل الدخول</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

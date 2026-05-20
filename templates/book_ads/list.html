@@ -1,0 +1,72 @@
+﻿{% extends "baseStudent.html" %}
+
+{% block main %}
+<main class="section">
+  <div class="container">
+    <div class="toolbar">
+      <div class="toolbar__title">
+        <h1>الإعلانات المتاحة</h1>
+        <p>ابحثي حسب اسم الكتاب أو المقرر أو التخصص</p>
+      </div>
+      <div class="ad-actions">
+        <a class="btn btn--primary" href="{{ url_for('create_ad') }}">إنشاء إعلان</a>
+      </div>
+    </div>
+
+    <form method="get" action="{{ url_for('student_ads') }}" class="filters">
+      <input class="search" type="search" name="q" value="{{ filters.q }}" placeholder="ابحثي عن كتاب أو مقرر" />
+
+      <select class="select" name="major">
+        <option value="">كل التخصصات</option>
+        {% for m in majors %}
+          <option value="{{ m.major }}" {{ 'selected' if filters.major == m.major else '' }}>{{ m.major }}</option>
+        {% endfor %}
+      </select>
+
+      <select class="select" name="ad_type">
+        <option value="">كل الأنواع</option>
+        <option value="تبادل" {{ 'selected' if filters.ad_type == 'تبادل' else '' }}>تبادل</option>
+        <option value="تبرع" {{ 'selected' if filters.ad_type == 'تبرع' else '' }}>تبرع</option>
+      </select>
+
+      <select class="select" name="ad_status">
+        <option value="الكل" {{ 'selected' if filters.ad_status == 'الكل' else '' }}>الحالة: الكل</option>
+        <option value="متاح" {{ 'selected' if filters.ad_status == 'متاح' else '' }}>متاح</option>
+        <option value="محجوز" {{ 'selected' if filters.ad_status == 'محجوز' else '' }}>محجوز</option>
+        <option value="مغلق" {{ 'selected' if filters.ad_status == 'مغلق' else '' }}>مغلق</option>
+      </select>
+
+      <button class="btn btn--ghost" type="submit">تطبيق</button>
+    </form>
+
+    {% if ads %}
+      <section class="cards" aria-label="قائمة الإعلانات">
+        {% for ad in ads %}
+          <article class="cardx">
+            <div class="cardx__img">
+              <span class="tag">{{ ad.ad_type }}</span>
+              <span class="tag tag--green">{{ ad.ad_status }}</span>
+            </div>
+
+            <div class="cardx__body">
+              <h3 class="cardx__title">{{ ad.book_title }}</h3>
+              <p class="cardx__meta">المقرر: {{ ad.course_name }} • التخصص: {{ ad.major }}</p>
+              <div class="cardx__row">
+                <span class="small">حالة النسخة: {{ ad.copy_condition }}</span>
+                <span class="small">التسليم: {{ ad.delivery_method or 'يحدد لاحقاً' }}</span>
+              </div>
+            </div>
+
+            <div class="cardx__actions">
+              <a class="btn2 btn2--ghost" href="{{ url_for('ad_details', ad_id=ad.ad_id) }}">تفاصيل</a>
+              <a class="btn2 btn2--primary" href="{{ url_for('ad_details', ad_id=ad.ad_id) }}">طلب الكتاب</a>
+            </div>
+          </article>
+        {% endfor %}
+      </section>
+    {% else %}
+      <div class="empty-state">لا توجد إعلانات مطابقة للبحث.</div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

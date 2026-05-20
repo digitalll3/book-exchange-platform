@@ -1,0 +1,56 @@
+﻿{% extends "baseAdmin.html" %}
+
+{% block admin_content %}
+<header class="admin-header">
+  <div>
+    <h1>إدارة الإعلانات</h1>
+    <p>عرض جميع الإعلانات وتحديث حالتها أو حذفها</p>
+  </div>
+</header>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>الكتاب</th>
+      <th>الطالبة</th>
+      <th>النوع</th>
+      <th>حالة النسخة</th>
+      <th>حالة الإعلان</th>
+      <th>التاريخ</th>
+      <th>الإجراءات</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ad in ads %}
+      <tr>
+        <td>{{ ad.ad_id }}</td>
+        <td>{{ ad.book_title }}</td>
+        <td>{{ ad.owner_name }}</td>
+        <td>{{ ad.ad_type }}</td>
+        <td>{{ ad.copy_condition }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin_update_ad_status', ad_id=ad.ad_id) }}" style="display:flex; gap:8px; align-items:center;">
+            <select class="admin-form__input" name="ad_status" style="min-width:120px;">
+              <option value="متاح" {{ 'selected' if ad.ad_status == 'متاح' else '' }}>متاح</option>
+              <option value="محجوز" {{ 'selected' if ad.ad_status == 'محجوز' else '' }}>محجوز</option>
+              <option value="مغلق" {{ 'selected' if ad.ad_status == 'مغلق' else '' }}>مغلق</option>
+            </select>
+            <button class="admin-btn admin-btn--small admin-btn--secondary" type="submit">تحديث</button>
+          </form>
+        </td>
+        <td>{{ ad.ad_date }}</td>
+        <td>
+          <form class="inline-form" method="post" action="{{ url_for('delete_ad', ad_id=ad.ad_id) }}" onsubmit="return confirm('حذف الإعلان؟');">
+            <button class="admin-btn admin-btn--small admin-btn--danger" type="submit">حذف</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="8">لا توجد إعلانات.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
+

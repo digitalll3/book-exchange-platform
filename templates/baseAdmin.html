@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page_title or 'لوحة الإدارة' }}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <div class="admin-page">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__header">
+        <div class="brand">
+          <span class="brand__logo" aria-hidden="true">📚</span>
+          <span class="brand__text">
+            <span class="brand__title">لوحة التحكم</span>
+            <span class="brand__sub">الإدارة</span>
+          </span>
+        </div>
+      </div>
+
+      <nav class="admin-sidebar__nav">
+        <a class="admin-sidebar__link {{ 'admin-sidebar__link--active' if active_page == 'dashboard' else '' }}" href="{{ url_for('admin_dashboard') }}"><span class="admin-sidebar__icon">📊</span>الإحصائيات</a>
+        <a class="admin-sidebar__link {{ 'admin-sidebar__link--active' if active_page == 'books' else '' }}" href="{{ url_for('admin_books') }}"><span class="admin-sidebar__icon">📚</span>إدارة الكتب</a>
+        <a class="admin-sidebar__link {{ 'admin-sidebar__link--active' if active_page == 'admins' else '' }}" href="{{ url_for('admin_admins') }}"><span class="admin-sidebar__icon">👑</span>إدارة المسؤولين</a>
+        <a class="admin-sidebar__link {{ 'admin-sidebar__link--active' if active_page == 'students' else '' }}" href="{{ url_for('admin_students') }}"><span class="admin-sidebar__icon">👥</span>إدارة الطالبات</a>
+        <a class="admin-sidebar__link {{ 'admin-sidebar__link--active' if active_page == 'ads' else '' }}" href="{{ url_for('admin_ads') }}"><span class="admin-sidebar__icon">📣</span>إدارة الإعلانات</a>
+        <a class="admin-sidebar__link {{ 'admin-sidebar__link--active' if active_page == 'requests' else '' }}" href="{{ url_for('admin_requests') }}"><span class="admin-sidebar__icon">🔄</span>إدارة الطلبات</a>
+        <a class="admin-sidebar__link" href="{{ url_for('admin_logout') }}"><span class="admin-sidebar__icon">🚪</span>تسجيل الخروج</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="flash-wrap">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert--{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
+
+      {% block admin_content %}{% endblock %}
+    </main>
+  </div>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

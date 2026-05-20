@@ -1,0 +1,73 @@
+{% extends "baseAdmin.html" %}
+
+{% block admin_content %}
+<header class="admin-header">
+  <div>
+    <h1>إدارة الكتب</h1>
+    <p>الكتب المعتمدة التي يمكن إنشاء إعلانات عليها</p>
+  </div>
+</header>
+
+<form class="admin-form" method="post" action="{{ url_for('add_book') }}">
+  <div class="admin-form__header">
+    <h2>إضافة كتاب جديد</h2>
+  </div>
+
+  <div class="admin-form__grid">
+    <div class="admin-form__field">
+      <label class="admin-form__label">اسم الكتاب</label>
+      <input class="admin-form__input" type="text" name="book_title" required />
+    </div>
+
+    <div class="admin-form__field">
+      <label class="admin-form__label">اسم المقرر</label>
+      <input class="admin-form__input" type="text" name="course_name" required />
+    </div>
+
+    <div class="admin-form__field">
+      <label class="admin-form__label">التخصص</label>
+      <input class="admin-form__input" type="text" name="major" required />
+    </div>
+
+    <div class="admin-form__field">
+      <label class="admin-form__label">وصف مختصر</label>
+      <textarea class="admin-form__input admin-form__textarea" name="short_description"></textarea>
+    </div>
+  </div>
+
+  <div class="admin-form__actions">
+    <button class="admin-btn admin-btn--primary" type="submit">إضافة الكتاب</button>
+  </div>
+</form>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>الكتاب</th>
+      <th>المقرر</th>
+      <th>التخصص</th>
+      <th>الوصف</th>
+      <th>الإجراءات</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in books %}
+      <tr>
+        <td>{{ book.book_id }}</td>
+        <td>{{ book.book_title }}</td>
+        <td>{{ book.course_name }}</td>
+        <td>{{ book.major }}</td>
+        <td>{{ book.short_description or '-' }}</td>
+        <td>
+          <form class="inline-form" method="post" action="{{ url_for('delete_book', book_id=book.book_id) }}" onsubmit="return confirm('حذف الكتاب؟');">
+            <button class="admin-btn admin-btn--small admin-btn--danger" type="submit">حذف</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6">لا توجد كتب.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

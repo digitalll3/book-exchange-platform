@@ -1,0 +1,66 @@
+{% extends "baseAdmin.html" %}
+
+{% block admin_content %}
+<header class="admin-header">
+  <div>
+    <h1>الإحصائيات العامة</h1>
+    <p>نظرة سريعة على بيانات النظام</p>
+  </div>
+</header>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-card__icon">👥</div>
+    <div class="stat-card__content">
+      <h3>الطالبات</h3>
+      <span class="stat-card__number">{{ stats.students }}</span>
+      <span class="stat-card__sub">طالبة مسجلة</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-card__icon">📚</div>
+    <div class="stat-card__content">
+      <h3>الكتب</h3>
+      <span class="stat-card__number">{{ stats.books }}</span>
+      <span class="stat-card__sub">كتاب معتمد</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-card__icon">📣</div>
+    <div class="stat-card__content">
+      <h3>الإعلانات</h3>
+      <span class="stat-card__number">{{ stats.ads }}</span>
+      <span class="stat-card__sub">إجمالي الإعلانات</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-card__icon">✅</div>
+    <div class="stat-card__content">
+      <h3>المتاحة</h3>
+      <span class="stat-card__number">{{ stats.available_ads }}</span>
+      <span class="stat-card__sub">إعلانات متاحة</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-card__icon">🔄</div>
+    <div class="stat-card__content">
+      <h3>الطلبات</h3>
+      <span class="stat-card__number">{{ stats.requests }}</span>
+      <span class="stat-card__sub">طلبات مسجلة</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-card__icon">✔</div>
+    <div class="stat-card__content">
+      <h3>المقبولة</h3>
+      <span class="stat-card__number">{{ stats.accepted_requests }}</span>
+      <span class="stat-card__sub">طلبات بحالة مقبول</span>
+    </div>
+  </div>
+</div>
+{% endblock %}

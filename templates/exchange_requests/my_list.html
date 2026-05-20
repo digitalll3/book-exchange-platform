@@ -1,0 +1,57 @@
+{% extends "baseStudent.html" %}
+
+{% block main %}
+<main class="section">
+  <div class="container">
+    <div class="toolbar">
+      <div class="toolbar__title">
+        <h1>طلباتي</h1>
+        <p>متابعة حالة الطلبات المرسلة من حسابك</p>
+      </div>
+    </div>
+
+    <table class="table" aria-label="جدول الطلبات">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>الكتاب</th>
+          <th>نوع الإعلان</th>
+          <th>حالة الطلب</th>
+          <th>حالة الإعلان</th>
+          <th>الموعد</th>
+          <th>إجراء</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in requests %}
+          <tr>
+            <td>#{{ item.request_id }}</td>
+            <td>{{ item.book_title }}</td>
+            <td>{{ item.ad_type }}</td>
+            <td><span class="{{ badge_class(item.request_status) }}">{{ item.request_status }}</span></td>
+            <td>{{ item.ad_status }}</td>
+            <td>
+              {% if item.meeting_place and item.meeting_time %}
+                {{ item.meeting_place }} - {{ item.meeting_time }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>
+              {% if item.request_status in ['بانتظار', 'مقبول'] %}
+                <form class="inline-form" method="post" action="{{ url_for('cancel_request', request_id=item.request_id) }}" onsubmit="return confirm('إلغاء هذا الطلب؟');">
+                  <button class="btn2 btn2--ghost" type="submit">إلغاء</button>
+                </form>
+              {% else %}
+                -
+              {% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="7">لا توجد طلبات حالياً.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+{% endblock %}

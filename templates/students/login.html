@@ -1,0 +1,42 @@
+﻿{% extends "baseStudent.html" %}
+
+{% block main %}
+<main class="section">
+  <div class="container">
+    <section class="box auth-box">
+      <div class="box__head">
+        <h2>تسجيل دخول الطالبة</h2>
+        <p>استخدمي البريد الجامعي وكلمة المرور</p>
+      </div>
+      <div class="box__body">
+        <form method="post" action="{{ url_for('student_login') }}" class="form">
+          <label class="field">
+            <span class="field__label">البريد الجامعي</span>
+            <input
+              class="input"
+              type="email"
+              name="university_email"
+              placeholder="sara@nu.edu.sa"
+              pattern="^[A-Za-z0-9._%+-]+@nu\.edu\.sa$"
+              title="يجب إدخال بريد جامعي بصيغة sara@nu.edu.sa"
+              required
+            />
+          </label>
+
+          <label class="field">
+            <span class="field__label">كلمة المرور</span>
+            <input class="input" type="password" name="password" required />
+          </label>
+
+          <button class="btn btn--primary btn--full" type="submit">دخول</button>
+        </form>
+
+        <p class="hint">
+          لا يوجد حساب؟
+          <a class="link" href="{{ url_for('student_signup') }}">إنشاء حساب جديد</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,65 @@
+﻿{% extends "baseStudent.html" %}
+
+{% block main %}
+<main class="hero">
+  <div class="container">
+    <div class="hero__card hero__card--simple">
+      <div class="hero__overlay"></div>
+      <div class="hero__content hero__content--simple">
+        <span class="hero__pill">
+          <span class="hero__pill-dot" aria-hidden="true"></span>
+          منصة تبادل وتبرع الكتب
+        </span>
+
+        <h1 class="hero__title hero__title--simple">
+          شاركي كتابك وساعدي زميلاتك
+          <span>إعلان واحد يكفي لتوصيل الكتاب للطالبة المناسبة داخل الكلية</span>
+        </h1>
+
+        <div class="hero__actions hero__actions--simple">
+          <a class="btn btn--ghost" href="{{ url_for('student_ads') }}">تصفح الإعلانات</a>
+          <a class="btn btn--primary" href="{{ url_for('create_ad') }}">إنشاء إعلان</a>
+        </div>
+
+        <p class="hero__note">تسجيل الطالبة يكون بالبريد الجامعي وكلمة المرور</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <h2 class="section__title">إحصائيات المنصة</h2>
+      </div>
+    </div>
+
+    <div class="stats__grid">
+      <div class="stat">
+        <div class="stat__top"><span class="stat__icon">📚</span><span class="stat__label">الكتب</span></div>
+        <b>{{ stats.books_count }}</b>
+        <span class="stat__sub">كتب معتمدة في النظام</span>
+      </div>
+
+      <div class="stat">
+        <div class="stat__top"><span class="stat__icon">📣</span><span class="stat__label">الإعلانات</span></div>
+        <b>{{ stats.ads_count }}</b>
+        <span class="stat__sub">إجمالي الإعلانات</span>
+      </div>
+
+      <div class="stat">
+        <div class="stat__top"><span class="stat__icon">✅</span><span class="stat__label">المتاحة</span></div>
+        <b>{{ stats.available_ads }}</b>
+        <span class="stat__sub">إعلانات بحالة متاح</span>
+      </div>
+
+      <div class="stat">
+        <div class="stat__top"><span class="stat__icon">🔄</span><span class="stat__label">الطلبات</span></div>
+        <b>{{ stats.requests_count }}</b>
+        <span class="stat__sub">طلبات تبادل/تبرع</span>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

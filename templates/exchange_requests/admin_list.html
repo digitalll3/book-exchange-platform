@@ -1,0 +1,65 @@
+﻿{% extends "baseAdmin.html" %}
+
+{% block admin_content %}
+<header class="admin-header">
+  <div>
+    <h1>إدارة الطلبات</h1>
+    <p>متابعة جميع طلبات التبادل والتبرع</p>
+  </div>
+</header>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>الكتاب</th>
+      <th>الطالبة الطالبة</th>
+      <th>صاحبة الإعلان</th>
+      <th>الحالة</th>
+      <th>الموعد</th>
+      <th>تحديث</th>
+      <th>حذف</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in requests %}
+      <tr>
+        <td>#{{ item.request_id }}</td>
+        <td>{{ item.book_title }}</td>
+        <td>{{ item.requester_name }}</td>
+        <td>{{ item.owner_name }}</td>
+        <td><span class="{{ badge_class(item.request_status) }}">{{ item.request_status }}</span></td>
+        <td>
+          {% if item.meeting_place and item.meeting_time %}
+            {{ item.meeting_place }} - {{ item.meeting_time }}
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td>
+          <form method="post" action="{{ url_for('admin_update_request', request_id=item.request_id) }}" style="display:grid; gap:6px; min-width:220px;">
+            <select class="admin-form__input" name="request_status" required>
+              <option value="بانتظار" {{ 'selected' if item.request_status == 'بانتظار' else '' }}>بانتظار</option>
+              <option value="مقبول" {{ 'selected' if item.request_status == 'مقبول' else '' }}>مقبول</option>
+              <option value="مرفوض" {{ 'selected' if item.request_status == 'مرفوض' else '' }}>مرفوض</option>
+              <option value="ملغي" {{ 'selected' if item.request_status == 'ملغي' else '' }}>ملغي</option>
+            </select>
+            <input class="admin-form__input" type="text" name="meeting_place" value="{{ item.meeting_place or '' }}" placeholder="مكان التسليم" />
+            <input class="admin-form__input" type="datetime-local" name="meeting_time" value="{{ item.meeting_time.strftime('%Y-%m-%dT%H:%M') if item.meeting_time else '' }}" />
+            <button class="admin-btn admin-btn--small admin-btn--secondary" type="submit">حفظ</button>
+          </form>
+        </td>
+        <td>
+          <form method="post" action="{{ url_for('delete_request', request_id=item.request_id) }}" onsubmit="return confirm('حذف الطلب؟');">
+            <button class="admin-btn admin-btn--small admin-btn--danger" type="submit">حذف</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="8">لا توجد طلبات.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
+
