@@ -35,10 +35,17 @@ DB_CONFIG = {
 }
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
+from mysql.connector import pooling
+
+db_pool = pooling.MySQLConnectionPool(
+    pool_name="mypool",
+    pool_size=5,
+    pool_reset_session=True,
+    **DB_CONFIG
+)
 
 def get_db_connection():
-    return mysql.connector.connect(**DB_CONFIG)
-
+    return db_pool.get_connection()
 def fetch_all(query, params=()):
     connection = None
     cursor = None
