@@ -20,11 +20,12 @@ PASSWORD_PATTERN = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-#
 import os
 import mysql.connector
 
+
+
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-import os
-
-db_config = {
+DB_CONFIG = {
     "host": os.getenv("DB_HOST"),
     "port": int(os.getenv("DB_PORT")),
     "user": os.getenv("DB_USER"),
@@ -32,7 +33,6 @@ db_config = {
     "database": os.getenv("DB_NAME"),
     "ssl_ca": os.path.join(BASE_DIR, "ca.pem")
 }
-
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 
